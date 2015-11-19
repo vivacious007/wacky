@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+ <html>
+ <head>
+	<title>
+		Custom Form 
+	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	<style>
+		*{margin:0px;padding:0px;}
+		body{background-image:url("bg.jpg");background-size:cover;color:white;}
+		.forms{margin-top:50px;background-color:black;width:25%;padding:15px;border-radius:15px;}
+		 input{ width:200px;height:35px;color:black;margin-bottom:10px;padding:5px;border-radius:7px;border:2px solid red;}
+		 textarea{color:black;border-radius:7px;border:2px solid red;}
+		 #ss-submit{color:white;background-color:#00cc00;border:2px solid white;}
+		 #head{font-size:2.5em;font-family: "Monotype Corsiva";font-weight:bold;}
+	</style>
+	<script type="text/javascript" language="javascript">
+function redirect()
+{
+    window.location.href="index.html";
+}
+</script>
+	<script type="text/javascript">
+	
+    // Handle form submission
+    $('#ss-form').submit(function(e) {
+        var button = $('input[type=submit]', this),
+            data = $(this).serialize();
+
+        e.preventDefault();
+        if (validate($(this))) {
+            button.button('loading');
+            $.ajax({
+                type: 'POST',
+                url: "https://docs.google.com/forms/d/1UdGnFMozxoYJbLFznFagjIn9MtZPeT-TZCFdymFcpR8/formResponse",
+                dataType: "xml",
+                data: data,
+				statusCode: {
+                    0: function () {
+                        window.location.replace("ThankYou.html");
+                    },
+                    200: function () {
+                        window.location.replace("ThankYou.html");
+                    }
+                }
+                
+            });
+        }
+
+        // All fields are required
+        function validate(#ss-form) {
+            debug: true,
+            errorClass:'error help-inline',
+            validClass:'success',
+            errorElement:'span',        
+            $('.control-group').removeClass('error');
+            $('input, textarea', #ss-form).each(function() {
+
+                var tag = $(this)[0].tagName.toLowerCase(),
+                    type = $(this).attr('type');
+
+                
+
+                // Validate text fields
+                if ((tag === 'input' && type === 'text') || tag === 'textarea') {
+                    if ($(this).val() === '' && !$(this).parent().hasClass('radio')) {
+                        $(this).parent().parent().addClass('error');
+                    }
+                }
+
+                // Validate email fields
+                if (tag === 'input' && type === 'email'){
+                    function validateEmail(email) {
+                        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return re.test(email);
+                    }
+
+                }
+
+            });
+
+            if ($('.control-group.error').length < 1) return true;
+            $('.control-group.error').length
+
+            $('html, body').animate({
+                scrollTop: $('.control-group.error').offset().top - 20
+            }, 500);
+
+            return false;
+        }
+    });
+	</script>
+	</head>
+	<body>
+		
+	<form id="ss-form" class="form-inline" method="POST" onsubmit="" action="https://docs.google.com/forms/d/1UdGnFMozxoYJbLFznFagjIn9MtZPeT-TZCFdymFcpR8/formResponse?embedded=true">
+		
+		<center>
+		<h1 id="head">Wacky Forms</h1>
+		<div class="forms">
+        <div class="control-group">
+            <label class="control-label" for="entry_939972042">First Name</label>
+                <div class="controls">
+                    <input id="entry_939972042" type="text" name="entry.939972042" value="" maxlength="100">
+                </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="entry_1795087448">Last Name</label>
+                <div class="controls">
+                    <input id="entry_1795087448" type="text" name="entry.1795087448" value="" maxlength="100">
+                </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="entry_1640967249">E-Mail</label>
+                <div class="controls">
+                    <input id="entry_1640967249" type="email" name="entry.1640967249" value=""/>
+                </div>
+        </div>
+        <div class="control-group">
+				<label class="control-label" for="entry_1309715860">Contact Number</label>
+                <div class="controls">
+                    <input id="entry_1309715860" type="number" name="entry.1309715860" value="" maxlength="15">
+                </div>
+        </div>                                          
+		<div>
+				<label for="entry_690506434">Messages</label><br>
+				<textarea id="entry_690506434" rows="3" cols="25" name="entry.690506434" value=""></textarea>
+        </div>
+    <br/>
+    
+			<div style="text-align: center;">
+				<input type="submit" name="submit" value="Submit" id="ss-submit" onsubmit="redirect();">
+			</div>
+	</div>
+		</form>
+		</center>
+	</body>
+</html>
